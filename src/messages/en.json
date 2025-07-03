@@ -1,5 +1,25 @@
 {
   "home": {
+    "welcome": "Welcome to Wagbty",
+    "description": "Discover the best homemade food prepared by talented chefs in your area.",
+    "greeting": "Hello, {name}!",
+    "searchPlaceholder": "Search for your favorite dish...",
+    "search": "Search",
+    "explore": "Explore",
+    "viewAllCategories": "View All Categories",
+    "popularDishes": "Popular Dishes",
+    "popularDishesDesc": "Enjoy our most popular dishes",
+    "features": {
+      "title": "Why Choose Us?",
+      "fastDelivery": "Fast Delivery",
+      "fastDeliveryDesc": "Quick and reliable delivery to your doorstep",
+      "foodSafety": "Food Safety",
+      "foodSafetyDesc": "We follow strict food safety standards",
+      "easyOrdering": "Easy Ordering",
+      "easyOrderingDesc": "Simple and intuitive ordering process"
+    },
+    "exploreCategories": "Explore Categories",
+    "exploreCategoriesDesc": "Discover our wide range of food categories",
     "top_chefs": "Our Top Chefs",
     "meet_our_chefs": "Meet our talented chefs",
     "location_not_specified": "Location not specified",
@@ -12,5 +32,26 @@
     "experience_years": "{years} {years, plural, one {year} other {years}} experience",
     "dishes_count": "{count} {count, plural, one {dish} other {dishes}}",
     "rating": "{rating} rating"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The page you are looking for doesn't exist or has been moved.",
+    "backToHome": "Back to Home",
+    "contactSupport": "Contact Support",
+    "orTry": "Or try visiting our",
+    "searchPage": "search page"
+  },
+  "error": {
+    "title": "Error",
+    "somethingWentWrong": "Something went wrong!",
+    "errorMessage": "We're sorry, but an unexpected error occurred. Our team has been notified and we're working to fix it.",
+    "serverErrorTitle": "Server Error",
+    "serverErrorMessage": "Sorry, something went wrong on our end. We're working to fix the issue. Please try again later.",
+    "tryAgain": "Try again",
+    "refreshPage": "Refresh Page",
+    "backToHome": "Back to Home",
+    "technicalDetails": "Technical details",
+    "needHelp": "Need help?",
+    "contactSupport": "Contact our support team"
   }
 }

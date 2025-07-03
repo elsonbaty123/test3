@@ -1,23 +1,15 @@
-const path = require('path');
+const createNextIntlPlugin = require('next-intl/plugin');
 
-/** @type {import('next-intl').NextConfig} */
-module.exports = {
-  // The default locale that will be used when visiting a non-locale prefixed path
-  defaultLocale: 'en',
+// Create the plugin with the path to the i18n configuration
+const withNextIntl = createNextIntlPlugin('./i18n.ts');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Disable the default Next.js i18n behavior since we're using next-intl
+  i18n: undefined,
   
-  // An array of all locales that are supported
-  locales: ['en', 'ar'],
-  
-  // The directory where the translation files are located
-  localePath: path.resolve('./src/messages'),
-  
-  // Whether to use the locale prefix for the default locale
-  localePrefix: 'as-needed',
-  
-  // Enable debug mode in development
-  debug: process.env.NODE_ENV === 'development',
-  
-  // Load the messages synchronously
-  loadLocaleFrom: (locale, namespace) => 
-    import(`./src/messages/${locale}.json`).then((m) => m.default || m),
-}
+  // Other Next.js config options can go here
+};
+
+// Apply the next-intl plugin to the Next.js config
+module.exports = withNextIntl(nextConfig);

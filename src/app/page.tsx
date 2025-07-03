@@ -1,31 +1,20 @@
-'use client';
+import { redirect } from 'next/navigation';
+import { defaultLocale } from '@/i18n-config';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { ChefShowcase } from '@/components/chef-showcase';
-import { useOrders } from '@/context/order-context';
-import { useAuth } from '@/context/auth-context';
-import { Search, Users, Clock, Shield, Truck, Utensils, ChevronDown } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FeatureHighlights } from '@/components/home/FeatureHighlights';
-import { DiscountedDishesCarousel } from '@/components/discounted-dishes-carousel';
-import type { Dish, User, UserRole, Coupon } from '@/lib/types';
+// This page will redirect to the default locale
+// The actual home page is at /[locale]/home/page.tsx
+export default function RootPage() {
+  // Redirect to the default locale home page
+  redirect(`/${defaultLocale}/home`);
+}
 
-// Sample hero images (replace with your actual image paths)
-const heroImages = [
-  'https://images.unsplash.com/photo-1504674900247-087703934869?q=80&w=2070',
-  'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069',
-  'https://images.unsplash.com/photo-1559847844-5315695dadae?q=80&w=1998',
-];
+export const dynamic = 'force-dynamic'; // Ensure this page is always dynamic
 
-interface ChefWithStats extends User {
-  dishCount: number;
-  averageRating: number;
-  experienceYears?: number;
+interface DiscountedDish {
+  dish: Dish;
+  originalPrice: number;
+  discountedPrice: number;
+  discountPercentage: number;
 }
 
 export default function Home() {
@@ -95,31 +84,13 @@ export default function Home() {
     });
     
     return Array.from(dishOrderCounts.entries())
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       .slice(0, 10)
-      .map(([dishId]) => dishes.find(dish => dish.id === dishId))
+      .map(([dishId]: [string, number]) => dishes.find(d => d.id === dishId))
       .filter((dish): dish is Dish => dish !== undefined);
   }, [dishes, orders]);
   
-  // Get top-rated dishes
-  const topRatedDishes = useMemo(() => {
-    return [...dishes]
-      .filter(dish => {
-        if (!dish.ratings?.length) return false;
-        const avgRating = dish.ratings.reduce((sum, r) => sum + r.rating, 0) / dish.ratings.length;
-        return avgRating >= 4.5;
-      })
-      .sort((a, b) => {
-        const avgRatingA = a.ratings?.length 
-          ? a.ratings.reduce((sum, r) => sum + r.rating, 0) / a.ratings.length 
-          : 0;
-        const avgRatingB = b.ratings?.length 
-          ? b.ratings.reduce((sum, r) => sum + r.rating, 0) / b.ratings.length 
-          : 0;
-        return avgRatingB - avgRatingA;
-      })
-      .slice(0, 10);
-  }, [dishes]);
+
   
   // Get discounted dishes with their discount information
   const discountedDishes = useMemo(() => {
@@ -127,16 +98,16 @@ export default function Home() {
     
     const now = new Date();
     return dishes
-      .map(dish => {
+      .map((dish: Dish) => {
         // Find the best applicable coupon for this dish
         const bestCoupon = coupons
-          .filter(coupon => {
+          .filter((coupon: Coupon) => {
             if (!coupon.endDate || !coupon.isActive) return false;
             if (new Date(coupon.endDate) <= now) return false;
             return coupon.appliesTo === 'all' || 
                    (coupon.applicableDishIds && coupon.applicableDishIds.includes(dish.id));
           })
-          .sort((a, b) => b.discountValue - a.discountValue)[0];
+          .sort((a: Coupon, b: Coupon) => b.discountValue - a.discountValue)[0];
         
         if (!bestCoupon) return null;
         
@@ -155,44 +126,17 @@ export default function Home() {
           discountPercentage: parseFloat(discountPercentage.toFixed(1))
         };
       })
-      .filter((dish): dish is NonNullable<typeof dish> => dish !== null)
-      .sort((a, b) => b.discountPercentage - a.discountPercentage);
+      .filter((item): item is DiscountedDish => item !== null)
+      .sort((a: DiscountedDish, b: DiscountedDish) => b.discountPercentage - a.discountPercentage);
   }, [dishes, coupons]);
   
-  // Get top chefs (based on number of dishes and ratings)
-  const topChefs = useMemo(() => {
-    return chefs
-      .filter(chef => {
-        if (chef.role !== 'chef') return false;
-        const chefDishes = dishes.filter(dish => dish.chefId === chef.id);
-        const totalRatings = chefDishes.flatMap(d => d.ratings || []);
-        const avgRating = totalRatings.length > 0 
-          ? totalRatings.reduce((sum, r) => sum + r.rating, 0) / totalRatings.length 
-          : 0;
-        return avgRating >= 4.0;
-      })
-      .map(chef => {
-        const chefDishes = dishes.filter(dish => dish.chefId === chef.id);
-        const totalRatings = chefDishes.flatMap(d => d.ratings || []);
-        const avgRating = totalRatings.length > 0 
-          ? totalRatings.reduce((sum, r) => sum + r.rating, 0) / totalRatings.length 
-          : 0;
-          
-        return {
-          ...chef,
-          dishCount: chefDishes.length,
-          averageRating: avgRating
-        };
-      })
-      .sort((a, b) => b.averageRating * Math.log(a.dishCount + 1) - a.averageRating * Math.log(b.dishCount + 1))
-      .slice(0, 8);
-  }, [chefs, dishes]);
+
   
   // Get chefs with their stats
   const chefsWithStats = useMemo<ChefWithStats[]>(() => {
     return chefs
       .filter((chef): chef is User => chef !== null)
-      .map(chef => {
+      .map((chef: User) => {
         const chefDishes = dishes.filter(dish => dish.chefId === chef.id);
         const allRatings = chefDishes.flatMap(dish => dish.ratings || []);
         

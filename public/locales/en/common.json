@@ -1,0 +1,15 @@
+{
+  "title": "Welcome to Our Application",
+  "description": "This is a sample application with internationalization support.",
+  "error": {
+    "title": "An Error Occurred",
+    "message": "Something went wrong. Please try again later.",
+    "backToHome": "Back to Home",
+    "tryAgain": "Try Again"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  }
+}

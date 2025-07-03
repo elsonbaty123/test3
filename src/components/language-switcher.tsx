@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -11,17 +11,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { locales } from '@/i18n-config';
 
 interface LanguageSwitcherProps {
   isScrolled?: boolean;
+  currentLocale: string;
 }
 
-export function LanguageSwitcher({ isScrolled = true }: LanguageSwitcherProps) {
-  const { i18n, t } = useTranslation();
+const languageNames: Record<string, string> = {
+  en: 'English',
+  ar: 'العربية',
+};
+
+export function LanguageSwitcher({ isScrolled = true, currentLocale }: LanguageSwitcherProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const { theme } = useTheme();
 
   const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
+    if (!pathname) return;
+    
+    // Get the path without the current locale
+    const segments = pathname.split('/');
+    const pathWithoutLocale = segments.filter(segment => !locales.includes(segment as any)).join('/');
+    
+    // Redirect to the new URL with the selected language
+    router.push(`/${lng}${pathWithoutLocale ? `/${pathWithoutLocale}` : ''}`);
   };
 
   return (
@@ -38,16 +53,20 @@ export function LanguageSwitcher({ isScrolled = true }: LanguageSwitcherProps) {
           )}
         >
           <Languages className="h-5 w-5" />
-          <span className="sr-only">{t('change_language')}</span>
+          <span className="sr-only">Change language</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => changeLanguage('ar')} disabled={i18n.language === 'ar'}>
-          العربية
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage('en')} disabled={i18n.language === 'en'}>
-          English
-        </DropdownMenuItem>
+        {locales.map((locale) => (
+          <DropdownMenuItem 
+            key={locale}
+            onClick={() => changeLanguage(locale)} 
+            disabled={currentLocale === locale}
+            className={currentLocale === locale ? 'bg-accent' : ''}
+          >
+            {languageNames[locale] || locale}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

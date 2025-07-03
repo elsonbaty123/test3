@@ -1,12 +1,11 @@
 
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getLocaleFromPathname, getPathnameWithoutLocale } from '@/i18n-config';
 import { notFound } from 'next/navigation';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import MainLayout from '@/components/main-layout';
-
 
 export const metadata: Metadata = {
   title: {
@@ -23,24 +22,22 @@ export function generateStaticParams() {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { 
+    locale: string;
+  };
 }
 
 export default async function RootLayout({
   children,
   params: { locale }
 }: RootLayoutProps) {
-  // Validate that the incoming `locale` parameter is valid
-  let messages;
-  try {
-    // Ensure we have a valid locale before proceeding
-    const validLocales = ['en', 'ar'];
-    const validLocale = validLocales.includes(locale) ? locale : 'en';
-    messages = await getMessages({ locale: validLocale });
-  } catch (error) {
-    console.error('Error loading messages:', error);
+  // Validate the locale
+  if (!['en', 'ar'].includes(locale)) {
     notFound();
   }
+  
+  // Get messages for the current locale
+  const messages = await getMessages(locale as 'en' | 'ar');
   
   // Set language direction based on locale
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
@@ -56,10 +53,18 @@ export default async function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-body antialiased',
-          dir === 'rtl' ? 'font-arabic' : 'font-english'
+          dir === 'rtl' ? 'font-arabic' : 'font-english',
+          dir === 'rtl' ? '[&_*]:font-sans' : ''
         )}
       >
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider 
+          locale={locale} 
+          messages={messages}
+          defaultTranslationValues={{
+            strong: (chunks) => <strong>{chunks}</strong>,
+            em: (chunks) => <em>{chunks}</em>,
+          }}
+        >
           <MainLayout>{children}</MainLayout>
         </NextIntlClientProvider>
       </body>

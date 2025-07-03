@@ -1,5 +1,27 @@
 {
   "home": {
+    "welcome": "مرحبًا بكم في وجباتي",
+    "description": "اكتشف أفضل الأطعمة المنزلية المحضرة خصيصًا لك من قبل طهاة موهوبين في منطقتك.",
+    "searchPlaceholder": "ابحث عن وجبتك المفضلة...",
+    "search": "بحث",
+    "explore": "استكشف",
+    "viewAllCategories": "عرض جميع الفئات",
+    "popularDishes": "الأطباق الشهيرة",
+    "popularDishesDesc": "استمتع بأشهى الأطباق المفضلة لدينا",
+    "features": {
+      "title": "لماذا تختارنا؟",
+      "fastDelivery": "توصيل سريع",
+      "fastDeliveryDesc": "توصيل سريع وموثوق لأطعمتك المفضلة",
+      "foodSafety": "أطعمة آمنة",
+      "foodSafetyDesc": "نلتزم بأعلى معايير السلامة الغذائية",
+      "easyOrdering": "طلب سهل",
+      "easyOrderingDesc": "واجهة سهلة الاستخدام لطلب الطعام بكل سهولة",
+      "1": "وجبات منزلية طازجة تُقدم إلى باب منزلك",
+      "2": "ادعم الطهاة المحليين في مجتمعك",
+      "3": "تشكيلة واسعة من المأكولات للاختيار من بينها"
+    },
+    "exploreCategories": "تصفح الفئات",
+    "exploreCategoriesDesc": "اكتشف تشكيلتنا الواسعة من الأطباق المتنوعة",
     "top_chefs": "أفضل طهاوتنا",
     "meet_our_chefs": "تعرف على طهاوتنا الموهوبين",
     "location_not_specified": "لم يتم تحديد الموقع",
@@ -12,5 +34,97 @@
     "experience_years": "{years} {years, plural, zero {سنة} one {سنة} two {سنتين} few {سنوات} many {سنة} other {سنة}} خبرة",
     "dishes_count": "{count} {count, plural, zero {طبق} one {طبق} two {طبقان} few {أطباق} many {طبقًا} other {طبق}}",
     "rating": "{rating} تقييم"
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "message": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "backToHome": "العودة للصفحة الرئيسية",
+    "contactSupport": "اتصل بالدعم الفني",
+    "orTry": "أو قم بزيارة",
+    "searchPage": "صفحة البحث"
+  },
+  "error": {
+    "title": "خطأ",
+    "somethingWentWrong": "حدث خطأ ما!",
+    "errorMessage": "نعتذر، لقد حدث خطأ غير متوقع. لقد تم إخطار فريقنا وسنعمل على إصلاحه في أقرب وقت ممكن.",
+    "serverErrorTitle": "خطأ في الخادم",
+    "serverErrorMessage": "عذراً، حدث خطأ في الخادم. نحن نعمل على إصلاح المشكلة. يرجى المحاولة مرة أخرى لاحقاً.",
+    "tryAgain": "حاول مرة أخرى",
+    "refreshPage": "تحديث الصفحة",
+    "backToHome": "العودة للصفحة الرئيسية",
+    "technicalDetails": "تفاصيل تقنية",
+    "needHelp": "بحاجة إلى مساعدة؟",
+    "contactSupport": "اتصل بفريق الدعم الفني"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ ما",
+    "retry": "إعادة المحاولة",
+    "success": "تم بنجاح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirm": "تأكيد",
+    "back": "رجوع"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "name": "الاسم",
+    "phone": "رقم الهاتف"
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "empty": "سلة التسوق فارغة",
+    "subtotal": "المجموع الفرعي",
+    "delivery": "رسوم التوصيل",
+    "total": "الإجمالي",
+    "checkout": "إتمام الطلب",
+    "addToCart": "أضف إلى السلة",
+    "remove": "إزالة",
+    "quantity": "الكمية",
+    "specialInstructions": "تعليمات خاصة"
+  },
+  "order": {
+    "trackOrder": "تتبع طلبك",
+    "orderStatus": "حالة الطلب",
+    "orderHistory": "سجل الطلبات",
+    "orderNumber": "رقم الطلب",
+    "orderDate": "تاريخ الطلب",
+    "deliveryAddress": "عنوان التوصيل",
+    "paymentMethod": "طريقة الدفع",
+    "items": "المنتجات",
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "تم التأكيد",
+      "preparing": "قيد التحضير",
+      "onTheWay": "في الطريق",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغي"
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "editProfile": "تعديل الملف الشخصي",
+    "savedAddresses": "العناوين المحفوظة",
+    "paymentMethods": "طرق الدفع",
+    "notifications": "الإشعارات",
+    "help": "المساعدة",
+    "settings": "الإعدادات"
+  },
+  "reviews": {
+    "title": "التقييمات والمراجعات",
+    "writeReview": "اكتب تقييمك",
+    "yourRating": "تقييمك",
+    "yourReview": "مراجعتك",
+    "submit": "إرسال التقييم",
+    "noReviews": "لا توجد تقييمات بعد"
   }
 }
