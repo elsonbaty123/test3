@@ -1,0 +1,16 @@
+{
+  "home": {
+    "top_chefs": "Our Top Chefs",
+    "meet_our_chefs": "Meet our talented chefs",
+    "location_not_specified": "Location not specified",
+    "default_bio": "Passionate chef creating delicious meals",
+    "no_chefs_available": "No chefs available at the moment.",
+    "view_all_chefs": "View All Chefs",
+    "status_available": "Available",
+    "status_busy": "Busy",
+    "status_closed": "Closed",
+    "experience_years": "{years} {years, plural, one {year} other {years}} experience",
+    "dishes_count": "{count} {count, plural, one {dish} other {dishes}}",
+    "rating": "{rating} rating"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "home": {
+    "top_chefs": "أفضل طهاوتنا",
+    "meet_our_chefs": "تعرف على طهاوتنا الموهوبين",
+    "location_not_specified": "لم يتم تحديد الموقع",
+    "default_bio": "طاهٍ شغوف يعد وجبات لذيذة",
+    "no_chefs_available": "لا توجد طهاة متاحين حاليًا.",
+    "view_all_chefs": "عرض كل الطهاة",
+    "status_available": "متاح",
+    "status_busy": "مشغول",
+    "status_closed": "مغلق",
+    "experience_years": "{years} {years, plural, zero {سنة} one {سنة} two {سنتين} few {سنوات} many {سنة} other {سنة}} خبرة",
+    "dishes_count": "{count} {count, plural, zero {طبق} one {طبق} two {طبقان} few {أطباق} many {طبقًا} other {طبق}}",
+    "rating": "{rating} تقييم"
+  }
+}

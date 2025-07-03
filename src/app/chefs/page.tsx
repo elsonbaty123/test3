@@ -14,21 +14,31 @@ interface ChefWithStats extends User {
   bio?: string;
   coverImage?: string;
   status?: StatusObject;
+  location?: string; // Add location property to match the chef card
 }
 
-
-
-export default function ChefsPage() {
-  // Use a default value for translations to avoid errors
-  const t = (key: string, defaultValue: string = '') => {
-    try {
-      const translations = require('next-intl').useTranslations('home');
-      return translations(key) || defaultValue;
-    } catch (e) {
-      return defaultValue || key;
+// Helper function for default translations
+const defaultTranslations = (key: string, defaultValue: string = '') => {
+  try {
+    const { default: translations } = require('@/messages/en.json');
+    const keys = key.split('.');
+    let result = translations;
+    
+    for (const k of keys) {
+      result = result?.[k];
+      if (!result) break;
     }
-  };
-  const [chefs, setChefs] = useState<ChefWithStats[]>([] as ChefWithStats[]);
+    
+    return result || defaultValue || key;
+  } catch (e) {
+    return defaultValue || key;
+  }
+};
+
+// Client component that uses translations
+export default function ChefsPage() {
+  const t = useTranslations('home');
+  const [chefs, setChefs] = useState<ChefWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,8 +46,17 @@ export default function ChefsPage() {
     const fetchChefs = async () => {
       try {
         const chefsData = await getChefs();
-        console.log('Fetched chefs:', chefsData); // Debug log
-        setChefs(chefsData as ChefWithStats[]);
+        // Process and validate chef data
+        const processedChefs = (chefsData as ChefWithStats[]).map(chef => ({
+          ...chef,
+          location: chef.location || t('location_not_specified', { defaultValue: 'Location not specified' }),
+          bio: chef.bio || t('default_bio', { defaultValue: 'Passionate chef creating delicious meals' }),
+          experienceYears: chef.experienceYears || 0,
+          dishCount: chef.dishCount || 0,
+          averageRating: chef.averageRating || 0,
+        }));
+        
+        setChefs(processedChefs);
         setError(null);
       } catch (error) {
         console.error('Error loading chefs:', error);
@@ -78,23 +97,33 @@ export default function ChefsPage() {
   if (!chefs || chefs.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <h1 className="text-3xl font-bold mb-4">{t('home.top_chefs')}</h1>
-        <p className="text-muted-foreground">No chefs available at the moment.</p>
+        <h1 className="text-3xl font-bold mb-4">
+          {t('top_chefs', { defaultValue: 'Our Top Chefs' })}
+        </h1>
+        <p className="text-muted-foreground">
+          {t('no_chefs_available', { defaultValue: 'No chefs available at the moment.' })}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-center mb-4">{t('home.top_chefs', 'Our Top Chefs')}</h1>
-      <p className="text-muted-foreground text-center mb-12">{t('home.meet_our_chefs', 'Meet our talented chefs')}</p>
+      <h1 className="text-3xl font-bold text-center mb-4">
+        {t('top_chefs', { defaultValue: 'Our Top Chefs' })}
+      </h1>
+      <p className="text-muted-foreground text-center mb-12">
+        {t('meet_our_chefs', { defaultValue: 'Meet our talented chefs' })}
+      </p>
       
       <ChefShowcase 
         chefs={chefs} 
-        title={t('home.top_chefs')}
-        subtitle={t('home.meet_our_chefs')}
+        title={t('top_chefs', { defaultValue: 'Top Chefs' })}
+        subtitle={t('meet_our_chefs', { defaultValue: 'Meet our chefs' })}
         showViewAll={false}
       />
     </div>
   );
 }
+
+
